@@ -6,6 +6,10 @@
 
 services:
 
+  smp-db:
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U smp_user -d smp_db"]
+
   smp-kafka:
     environment:
       KAFKA_NODE_ID: 1
