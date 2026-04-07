@@ -293,6 +293,15 @@
       }
     },
 
+    // ── Infra ─────────────────────────────────────────────────
+    {
+      "name": "infra: restart",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "make -f .dev/Makefile services-down && make -f .dev/Makefile services-d",
+      "cwd": "${workspaceFolder}"
+    }
+
 
   ],
 
