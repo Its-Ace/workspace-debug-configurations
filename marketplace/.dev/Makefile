@@ -10,6 +10,9 @@
 #   make -f .dev/Makefile infra-reset    # first time: wipe + seed DB
 #   make -f .dev/Makefile services-d     # subsequent: start infra
 #   make -f .dev/Makefile migrate-all    # alembic via local .venv
+#   make -f .dev/Makefile seed-admin     # seed admin user (auth-service)
+#   make -f .dev/Makefile seed-application  # seed service categories (application-service)
+#   make -f .dev/Makefile seed-all       # seed all services
 #   make -f .dev/Makefile test-auth      # pytest via local .venv
 # ══════════════════════════════════════════════════════════════
 
@@ -79,6 +82,20 @@ migrate-notif: ## alembic upgrade heads — notifications-service
 	  PYTHONPATH=$(REPO)/services/notifications-service $(VENV)/python -m alembic upgrade heads
 
 migrate-all: migrate-auth migrate-application migrate-docs migrate-pay migrate-notif ## Run all migrations
+
+# ── Seeding (local .venv) ─────────────────────────────────────
+
+seed-admin: ## Seed initial admin user — auth-service
+	cd $(REPO)/services/auth-service && \
+	  set -a && source $(DEV_DIR).env.auth && set +a && \
+	  PYTHONPATH=$(REPO)/services/auth-service $(VENV)/python -m app.cli.seed_admin
+
+seed-application: ## Seed initial service categories — application-service
+	cd $(REPO)/services/application-service && \
+	  set -a && source $(DEV_DIR).env.application && set +a && \
+	  PYTHONPATH=$(REPO)/services/application-service $(VENV)/python -m app.cli.seed_admin_data
+
+seed-all: seed-admin seed-application ## Seed all services
 
 # ── Tests (local .venv) ───────────────────────────────────────
 

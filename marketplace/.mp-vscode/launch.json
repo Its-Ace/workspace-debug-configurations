@@ -32,7 +32,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Auth Service with reload (live-edit, no breakpoints) ──
@@ -55,7 +55,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Application Service (port 8001) ──────────────────────
@@ -77,7 +77,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Application Service with reload ───────────────────────
@@ -100,7 +100,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Application Service — Taskiq Worker ───────────────────
@@ -121,7 +121,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Application Service — Taskiq Scheduler ────────────────
@@ -143,7 +143,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Documents Service (port 8002) ─────────────────────────
@@ -165,7 +165,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Documents Service with reload ─────────────────────────
@@ -188,7 +188,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Payments Service (port 8003) ──────────────────────────
@@ -210,7 +210,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Payments Service with reload ──────────────────────────
@@ -233,7 +233,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Notifications Service (port 8004) ─────────────────────
@@ -255,7 +255,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Notifications Service with reload ─────────────────────
@@ -278,7 +278,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "internalConsole"
+      "console": "integratedTerminal"
     },
 
     // ── Frontend — Nuxt dev server (port 3000) ────────────────
@@ -295,67 +295,16 @@
 
   ],
 
-  // ── Compound: launch all 5 services at once ───────────────
+  // ── Compound ─────────────────────────────────────────
   "compounds": [
     {
-      "name": "All Services (debug, no reload)",
-      "preLaunchTask": "infra: ensure running",
-      "configurations": [
-        "auth-service (8000)",
-        "application-service (8001)",
-        "documents-service (8002)",
-        "payments-service (8003)",
-        "notifications-service (8004)"
-      ],
-      "stopAll": true
-    },
-    {
-      "name": "All Services (reload)",
+      "name": "All Services (Debug, Worker, Reload) + FE",
       "preLaunchTask": "infra: ensure running",
       "configurations": [
         "auth-service (8000) — reload",
         "application-service (8001) — reload",
-        "documents-service (8002) — reload",
-        "payments-service (8003) — reload",
-        "notifications-service (8004) — reload"
-      ],
-      "stopAll": true
-    },
-    {
-      "name": "All Services (debug + workers)",
-      "preLaunchTask": "infra: ensure running",
-      "configurations": [
-        "auth-service (8000)",
-        "application-service (8001)",
         "application-service — taskiq worker",
         "application-service — taskiq scheduler",
-        "documents-service (8002)",
-        "payments-service (8003)",
-        "notifications-service (8004)"
-      ],
-      "stopAll": true
-    },
-
-    // ── All Services + FE ─────────────────────────────────────
-    {
-      "name": "All Services + FE",
-      "preLaunchTask": "infra: ensure running",
-      "configurations": [
-        "auth-service (8000)",
-        "application-service (8001)",
-        "documents-service (8002)",
-        "payments-service (8003)",
-        "notifications-service (8004)",
-        "fe: dev (3000)"
-      ],
-      "stopAll": true
-    },
-    {
-      "name": "All Services + FE (reload)",
-      "preLaunchTask": "infra: ensure running",
-      "configurations": [
-        "auth-service (8000) — reload",
-        "application-service (8001) — reload",
         "documents-service (8002) — reload",
         "payments-service (8003) — reload",
         "notifications-service (8004) — reload",

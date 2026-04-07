@@ -32,10 +32,10 @@
     {
       "label": "infra: ensure running",
       "type": "shell",
-      "command": "bash -c 'RUNNING=$(docker inspect -f \"{{.State.Running}}\" smp-db smp-redis smp-kafka smp-elasticsearch 2>/dev/null | grep -c \"^true$\"); if [ \"$RUNNING\" -eq 4 ]; then echo \"Infra already up (4/4 containers running)\"; else echo \"Starting infra ($RUNNING/4 containers running)...\"; make -f .dev/Makefile services-d; echo \"Waiting for postgres...\"; until docker exec smp-db psql -U smp_user -d smp_db -c \"SELECT 1\" >/dev/null 2>&1; do sleep 1; done; echo \"Postgres ready.\"; fi'",
+      "command": "bash .dev/ensure-infra.sh",
       "options": { "cwd": "${workspaceFolder}" },
       "presentation": {
-        "reveal": "always",
+        "reveal": "silent",
         "panel": "dedicated",
         "group": "infra",
         "label": "Infra",
