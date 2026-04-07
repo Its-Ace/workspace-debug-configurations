@@ -69,6 +69,17 @@
       "group": "build",
       "presentation": { "reveal": "always", "panel": "shared" }
     },
+    {
+      "label": "local: restart infra",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "local: stop infra",
+        "local: start infra (PG + Redis + Kafka + ES)"
+      ],
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared", "close": true },
+      "detail": "Stop all infra containers then bring them back up"
+    },
 
     // ── Migrations ────────────────────────────────────────────
 

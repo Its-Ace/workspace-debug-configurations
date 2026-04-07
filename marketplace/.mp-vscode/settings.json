@@ -42,5 +42,8 @@
     "**/dist": true,
     "**/build": true,
     "**/__pycache__": true
-  }
+  },
+
+  // ── Debug terminals — close when process exits ────────────
+  "terminal.integrated.closeOnExit": "always"
 }
