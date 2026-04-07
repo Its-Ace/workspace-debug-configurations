@@ -28,11 +28,13 @@
       "python": "${workspaceFolder}/.venv/bin/python",
       "envFile": "${workspaceFolder}/.dev/.env.auth",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/auth-service"
+        "PYTHONPATH": "${workspaceFolder}/services/auth-service",
+        "JWT_PRIVATE_KEY_PATH": "${workspaceFolder}/secrets/jwt/private.pem",
+        "JWT_PUBLIC_KEY_PATH": "${workspaceFolder}/secrets/jwt/public.pem"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Auth Service with reload (live-edit, no breakpoints) ──
@@ -51,11 +53,13 @@
       "python": "${workspaceFolder}/.venv/bin/python",
       "envFile": "${workspaceFolder}/.dev/.env.auth",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/auth-service"
+        "PYTHONPATH": "${workspaceFolder}/services/auth-service",
+        "JWT_PRIVATE_KEY_PATH": "${workspaceFolder}/secrets/jwt/private.pem",
+        "JWT_PUBLIC_KEY_PATH": "${workspaceFolder}/secrets/jwt/public.pem"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Application Service (port 8001) ──────────────────────
@@ -77,7 +81,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Application Service with reload ───────────────────────
@@ -100,7 +104,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Application Service — Taskiq Worker ───────────────────
@@ -121,7 +125,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Application Service — Taskiq Scheduler ────────────────
@@ -143,7 +147,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Documents Service (port 8002) ─────────────────────────
@@ -165,7 +169,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Documents Service with reload ─────────────────────────
@@ -188,7 +192,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Payments Service (port 8003) ──────────────────────────
@@ -210,7 +214,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Payments Service with reload ──────────────────────────
@@ -233,7 +237,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Notifications Service (port 8004) ─────────────────────
@@ -255,7 +259,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Notifications Service with reload ─────────────────────
@@ -278,7 +282,7 @@
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
-      "console": "integratedTerminal"
+      "console": "internalConsole"
     },
 
     // ── Frontend — Nuxt dev server (port 3000) ────────────────
