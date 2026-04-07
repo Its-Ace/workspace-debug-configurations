@@ -189,6 +189,59 @@
       "options": { "cwd": "${workspaceFolder}" },
       "group": "test",
       "presentation": { "reveal": "always", "panel": "shared" }
+    },
+
+    // ── Frontend (market-place-fe) ────────────────────────────
+    // These tasks live in market-place-fe/.vscode/tasks.json and
+    // use ${workspaceFolder} = market-place-fe directory.
+    // Kept here as reference; the active definitions are in the FE folder.
+
+    {
+      "label": "fe: dev (3000)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": {
+        "cwd": "${workspaceFolder}/../market-place-fe",
+        "env": { "FASTAPI_BASE_URL": "http://localhost:8082/api/v1" }
+      },
+      "group": "build",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "fe",
+        "label": "FE Dev",
+        "focus": true,
+        "clear": true
+      },
+      "problemMatcher": [
+        {
+          "pattern": {
+            "regexp": "^(.*)$",
+            "file": 1,
+            "line": 2,
+            "message": 3
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "Nuxt",
+            "endsPattern": "Local:.*http://localhost"
+          }
+        }
+      ],
+      "detail": "Start Nuxt dev server on http://localhost:3000"
+    },
+    {
+      "label": "fe: build",
+      "type": "shell",
+      "command": "npm run build",
+      "options": {
+        "cwd": "${workspaceFolder}/../market-place-fe",
+        "env": { "FASTAPI_BASE_URL": "http://localhost:8082/api/v1" }
+      },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "detail": "Production build (SSR + client bundle)"
     }
 
   ]

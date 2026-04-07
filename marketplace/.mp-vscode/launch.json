@@ -279,6 +279,18 @@
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
       "console": "internalConsole"
+    },
+
+    // ── Frontend — Nuxt dev server (port 3000) ────────────────
+    {
+      "name": "fe: dev (3000)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run dev",
+      "cwd": "${workspaceFolder:market-place-fe}",
+      "env": {
+        "FASTAPI_BASE_URL": "http://localhost:8082/api/v1"
+      }
     }
 
   ],
@@ -320,6 +332,34 @@
         "documents-service (8002)",
         "payments-service (8003)",
         "notifications-service (8004)"
+      ],
+      "stopAll": true
+    },
+
+    // ── All Services + FE ─────────────────────────────────────
+    {
+      "name": "All Services + FE",
+      "preLaunchTask": "infra: ensure running",
+      "configurations": [
+        "auth-service (8000)",
+        "application-service (8001)",
+        "documents-service (8002)",
+        "payments-service (8003)",
+        "notifications-service (8004)",
+        "fe: dev (3000)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "All Services + FE (reload)",
+      "preLaunchTask": "infra: ensure running",
+      "configurations": [
+        "auth-service (8000) — reload",
+        "application-service (8001) — reload",
+        "documents-service (8002) — reload",
+        "payments-service (8003) — reload",
+        "notifications-service (8004) — reload",
+        "fe: dev (3000)"
       ],
       "stopAll": true
     }
