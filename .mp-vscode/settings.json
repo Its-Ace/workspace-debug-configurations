@@ -1,0 +1,46 @@
+{
+  // ── Python interpreter — unified .venv ────────────────────
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+
+  // ── Analysis paths — let pylance find all service packages ─
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/services/auth-service",
+    "${workspaceFolder}/services/application-service",
+    "${workspaceFolder}/services/documents-service",
+    "${workspaceFolder}/services/payments-service",
+    "${workspaceFolder}/services/notifications-service",
+    "${workspaceFolder}/smp-common"
+  ],
+
+  // ── Testing ───────────────────────────────────────────────
+  "python.testing.pytestEnabled": true,
+  "python.testing.pytestArgs": ["-v"],
+  "python.testing.cwd": "${workspaceFolder}",
+
+  // ── Formatting / Linting (ruff) ───────────────────────────
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    }
+  },
+
+  // ── File excludes — hide generated/cache files ────────────
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true,
+    "**/.pytest_cache": true,
+    "**/*.egg-info": true
+  },
+
+  // ── Search excludes ───────────────────────────────────────
+  "search.exclude": {
+    "**/.venv": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/__pycache__": true
+  }
+}

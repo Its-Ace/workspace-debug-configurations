@@ -1,0 +1,195 @@
+{
+  // ── Marketplace — VS Code Tasks ───────────────────────────────
+  //
+  // Run via: Ctrl+Shift+P → Tasks: Run Task
+  // ─────────────────────────────────────────────────────────────
+  "version": "2.0.0",
+  "tasks": [
+
+    // ── Setup ─────────────────────────────────────────────────
+
+    {
+      "label": "local: setup venv",
+      "type": "shell",
+      "command": "bash .dev/setup-dev-venv.sh",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared",
+        "focus": true
+      },
+      "detail": "Create .venv and install all requirements + smp-common"
+    },
+
+    // ── Pre-launch: ensure infra is running ───────────────────
+    // Used automatically by every F5 debug config via preLaunchTask.
+    // Checks all core infra containers (PG, Redis, Kafka, ES). Starts
+    // infra only if any are not running, then waits for postgres to be
+    // ready before handing off to the debugger.
+    // instanceLimit:1 ensures only one check runs even when a compound
+    // launch triggers this task from multiple sub-configurations.
+    {
+      "label": "infra: ensure running",
+      "type": "shell",
+      "command": "bash -c 'RUNNING=$(docker inspect -f \"{{.State.Running}}\" smp-db smp-redis smp-kafka smp-elasticsearch 2>/dev/null | grep -c \"^true$\"); if [ \"$RUNNING\" -eq 4 ]; then echo \"Infra already up (4/4 containers running)\"; else echo \"Starting infra ($RUNNING/4 containers running)...\"; make -f .dev/Makefile services-d; echo \"Waiting for postgres...\"; until docker exec smp-db psql -U smp_user -d smp_db -c \"SELECT 1\" >/dev/null 2>&1; do sleep 1; done; echo \"Postgres ready.\"; fi'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "group": "infra",
+        "label": "Infra",
+        "focus": false,
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "runOptions": {
+        "instanceLimit": 1
+      },
+      "isBackground": false,
+      "problemMatcher": []
+    },
+
+    // ── Infrastructure ────────────────────────────────────────
+
+    {
+      "label": "local: start infra (PG + Redis + Kafka + ES)",
+      "type": "shell",
+      "command": "make -f .dev/Makefile services-d",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "detail": "docker compose with Kafka external listener on localhost:9094"
+    },
+    {
+      "label": "local: stop infra",
+      "type": "shell",
+      "command": "make -f .dev/Makefile services-down",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+
+    // ── Migrations ────────────────────────────────────────────
+
+    {
+      "label": "local: migrate — auth-service",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python -m alembic upgrade heads",
+      "options": {
+        "cwd": "${workspaceFolder}/services/auth-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/auth-service" }
+      },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "local: migrate — application-service",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python -m alembic upgrade heads",
+      "options": {
+        "cwd": "${workspaceFolder}/services/application-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/application-service" }
+      },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "local: migrate — documents-service",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python -m alembic upgrade heads",
+      "options": {
+        "cwd": "${workspaceFolder}/services/documents-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/documents-service" }
+      },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "local: migrate — payments-service",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python -m alembic upgrade heads",
+      "options": {
+        "cwd": "${workspaceFolder}/services/payments-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/payments-service" }
+      },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "local: migrate — notifications-service",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python -m alembic upgrade heads",
+      "options": {
+        "cwd": "${workspaceFolder}/services/notifications-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/notifications-service" }
+      },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "local: migrate — ALL services",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "local: migrate — auth-service",
+        "local: migrate — application-service",
+        "local: migrate — documents-service",
+        "local: migrate — payments-service",
+        "local: migrate — notifications-service"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "detail": "Run alembic upgrade heads for every service against localhost DB"
+    },
+
+    // ── Seed Data ─────────────────────────────────────────────
+
+    {
+      "label": "local: seed admin (auth-service)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/python -m app.cli.seed_admin",
+      "options": {
+        "cwd": "${workspaceFolder}/services/auth-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/auth-service" }
+      },
+      "group": "build",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+
+    // ── Tests ─────────────────────────────────────────────────
+
+    {
+      "label": "local: test — auth-service",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/pytest -v",
+      "options": {
+        "cwd": "${workspaceFolder}/services/auth-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/auth-service" }
+      },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "local: test — application-service",
+      "type": "shell",
+      "command": "${workspaceFolder}/.venv/bin/pytest -v",
+      "options": {
+        "cwd": "${workspaceFolder}/services/application-service",
+        "env": { "PYTHONPATH": "${workspaceFolder}/services/application-service" }
+      },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+
+    // ── Health Check ──────────────────────────────────────────
+
+    {
+      "label": "local: health check all",
+      "type": "shell",
+      "command": "make health",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "test",
+      "presentation": { "reveal": "always", "panel": "shared" }
+    }
+
+  ]
+}

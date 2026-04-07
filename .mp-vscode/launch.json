@@ -1,0 +1,327 @@
+{
+  // ── Marketplace — VS Code Debug Configurations ──────────────
+  //
+  // Prerequisites:
+  //   1. Run: make local-setup          (creates .venv, installs all deps)
+  //   2. Run: make local-infra-d        (starts PG, Redis, Kafka, ES in Docker)
+  //   3. Run: make local-migrate-all    (runs all migrations against localhost DB)
+  //   4. Press F5 or use the Run panel to start a service (or "All Services")
+  //
+  // Each service uses the same .venv and its own services/{name}/.env.local
+  // No --reload flag → breakpoints work correctly in the debugger.
+  // ────────────────────────────────────────────────────────────
+  "version": "0.2.0",
+  "configurations": [
+
+    // ── Auth Service (port 8000, gRPC 50051) ─────────────────
+    {
+      "name": "auth-service (8000)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8000"
+      ],
+      "cwd": "${workspaceFolder}/services/auth-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.auth",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/auth-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Auth Service with reload (live-edit, no breakpoints) ──
+    {
+      "name": "auth-service (8000) — reload",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8000",
+        "--reload"
+      ],
+      "cwd": "${workspaceFolder}/services/auth-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.auth",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/auth-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Application Service (port 8001) ──────────────────────
+    {
+      "name": "application-service (8001)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8001"
+      ],
+      "cwd": "${workspaceFolder}/services/application-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Application Service with reload ───────────────────────
+    {
+      "name": "application-service (8001) — reload",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8001",
+        "--reload"
+      ],
+      "cwd": "${workspaceFolder}/services/application-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Application Service — Taskiq Worker ───────────────────
+    {
+      "name": "application-service — taskiq worker",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "taskiq",
+      "args": [
+        "worker",
+        "app.core.taskiq:broker"
+      ],
+      "cwd": "${workspaceFolder}/services/application-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Application Service — Taskiq Scheduler ────────────────
+    {
+      "name": "application-service — taskiq scheduler",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "taskiq",
+      "args": [
+        "scheduler",
+        "app.core.schedules:scheduler",
+        "--skip-first-run"
+      ],
+      "cwd": "${workspaceFolder}/services/application-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Documents Service (port 8002) ─────────────────────────
+    {
+      "name": "documents-service (8002)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8002"
+      ],
+      "cwd": "${workspaceFolder}/services/documents-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.documents",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/documents-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Documents Service with reload ─────────────────────────
+    {
+      "name": "documents-service (8002) — reload",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8002",
+        "--reload"
+      ],
+      "cwd": "${workspaceFolder}/services/documents-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.documents",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/documents-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Payments Service (port 8003) ──────────────────────────
+    {
+      "name": "payments-service (8003)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8003"
+      ],
+      "cwd": "${workspaceFolder}/services/payments-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.payments",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/payments-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Payments Service with reload ──────────────────────────
+    {
+      "name": "payments-service (8003) — reload",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8003",
+        "--reload"
+      ],
+      "cwd": "${workspaceFolder}/services/payments-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.payments",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/payments-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Notifications Service (port 8004) ─────────────────────
+    {
+      "name": "notifications-service (8004)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8004"
+      ],
+      "cwd": "${workspaceFolder}/services/notifications-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.notifications",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/notifications-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
+    // ── Notifications Service with reload ─────────────────────
+    {
+      "name": "notifications-service (8004) — reload",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": [
+        "app.main:app",
+        "--host", "0.0.0.0",
+        "--port", "8004",
+        "--reload"
+      ],
+      "cwd": "${workspaceFolder}/services/notifications-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.notifications",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/notifications-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    }
+
+  ],
+
+  // ── Compound: launch all 5 services at once ───────────────
+  "compounds": [
+    {
+      "name": "All Services (debug, no reload)",
+      "preLaunchTask": "infra: ensure running",
+      "configurations": [
+        "auth-service (8000)",
+        "application-service (8001)",
+        "documents-service (8002)",
+        "payments-service (8003)",
+        "notifications-service (8004)"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "All Services (reload)",
+      "preLaunchTask": "infra: ensure running",
+      "configurations": [
+        "auth-service (8000) — reload",
+        "application-service (8001) — reload",
+        "documents-service (8002) — reload",
+        "payments-service (8003) — reload",
+        "notifications-service (8004) — reload"
+      ],
+      "stopAll": true
+    },
+    {
+      "name": "All Services (debug + workers)",
+      "preLaunchTask": "infra: ensure running",
+      "configurations": [
+        "auth-service (8000)",
+        "application-service (8001)",
+        "application-service — taskiq worker",
+        "application-service — taskiq scheduler",
+        "documents-service (8002)",
+        "payments-service (8003)",
+        "notifications-service (8004)"
+      ],
+      "stopAll": true
+    }
+  ]
+}
