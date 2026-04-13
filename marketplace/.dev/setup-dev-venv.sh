@@ -21,9 +21,27 @@ fi
 
 echo ">>> Using: $($PYTHON --version)"
 
-# ── 1. Create venv (skip if already exists) ──────────────────
+# ── 0. Ensure python3-venv is available ──────────────────────
+if ! $PYTHON -c "import ensurepip" &>/dev/null; then
+  echo ">>> 'ensurepip' not available — installing python3.12-venv via apt"
+  if command -v sudo &>/dev/null; then
+    sudo apt-get install -y python3.12-venv
+  else
+    apt-get install -y python3.12-venv
+  fi
+fi
+
+# ── 1. Create venv (skip if already healthy, otherwise recreate) ──
 if [[ -d "$VENV_DIR" ]]; then
-  echo ">>> venv exists at $VENV_DIR — skipping creation, updating packages"
+  if [[ ! -x "$VENV_DIR/bin/pip" || ! -x "$VENV_DIR/bin/python" ]]; then
+    echo ">>> venv at $VENV_DIR is broken — removing and recreating"
+    # May need sudo if the venv was created as root
+    rm -rf "$VENV_DIR" 2>/dev/null || sudo rm -rf "$VENV_DIR"
+    echo ">>> Creating Python venv at $VENV_DIR"
+    $PYTHON -m venv "$VENV_DIR"
+  else
+    echo ">>> venv exists and is healthy at $VENV_DIR — updating packages"
+  fi
 else
   echo ">>> Creating Python venv at $VENV_DIR"
   $PYTHON -m venv "$VENV_DIR"
