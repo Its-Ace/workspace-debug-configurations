@@ -47,6 +47,7 @@ taskiq-redis>=1.0
 taskiq-fastapi>=0.3
 
 # ── Utilities ─────────────────────────────────────────────────
+python-multipart>=0.0.9
 python-slugify>=8.0
 import-linter>=2.1
 
