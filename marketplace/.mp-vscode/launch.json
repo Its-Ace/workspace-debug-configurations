@@ -150,6 +150,27 @@
       "console": "internalConsole"
     },
 
+    // ── Documents Service — Taskiq Worker ─────────────────────
+    {
+      "name": "documents-service — taskiq worker",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "taskiq",
+      "args": [
+        "worker",
+        "app.workers.taskiq_broker:broker"
+      ],
+      "cwd": "${workspaceFolder}/services/documents-service",
+      "python": "${workspaceFolder}/.venv/bin/python",
+      "envFile": "${workspaceFolder}/.dev/.env.documents",
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/services/documents-service"
+      },
+      "preLaunchTask": "infra: ensure running",
+      "justMyCode": false,
+      "console": "internalConsole"
+    },
+
     // ── Documents Service (port 8002) ─────────────────────────
     {
       "name": "documents-service (8002)",
@@ -320,6 +341,7 @@
         "application-service — taskiq worker",
         "application-service — taskiq scheduler",
         "documents-service (8002) — reload",
+        "documents-service — taskiq worker",
         "payments-service (8003) — reload",
         "notifications-service (8004) — reload",
         "fe: dev (3000)"
