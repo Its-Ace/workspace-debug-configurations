@@ -2,12 +2,12 @@
   // ── Marketplace — VS Code Debug Configurations ──────────────
   //
   // Prerequisites:
-  //   1. Run: make local-setup          (creates .venv, installs all deps)
-  //   2. Run: make local-infra-d        (starts PG, Redis, Kafka, ES in Docker)
-  //   3. Run: make local-migrate-all    (runs all migrations against localhost DB)
+  //   1. Run: make -f .dev/Makefile setup          (creates .venv, installs all deps)
+  //   2. Run: make -f .dev/Makefile infra-d        (starts PG, Redis, Kafka, ES in Docker)
+  //   3. Run: make -f .dev/Makefile migrate-all    (runs all migrations against localhost DB)
   //   4. Press F5 or use the Run panel to start a service (or "All Services")
   //
-  // Each service uses the same .venv and its own services/{name}/.env.local
+  // Each service uses the same .venv and its own .dev/.env.<service>
   // No --reload flag → breakpoints work correctly in the debugger.
   // ────────────────────────────────────────────────────────────
   "version": "0.2.0",
@@ -24,13 +24,13 @@
         "--host", "0.0.0.0",
         "--port", "8000"
       ],
-      "cwd": "${workspaceFolder}/services/auth-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.auth",
+      "cwd": "${workspaceFolder:market-place-services}/services/auth-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.auth",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/auth-service",
-        "JWT_PRIVATE_KEY_PATH": "${workspaceFolder}/secrets/jwt/private.pem",
-        "JWT_PUBLIC_KEY_PATH": "${workspaceFolder}/secrets/jwt/public.pem"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/auth-service",
+        "JWT_PRIVATE_KEY_PATH": "${workspaceFolder:market-place-services}/secrets/jwt/private.pem",
+        "JWT_PUBLIC_KEY_PATH": "${workspaceFolder:market-place-services}/secrets/jwt/public.pem"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -49,13 +49,13 @@
         "--port", "8000",
         "--reload"
       ],
-      "cwd": "${workspaceFolder}/services/auth-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.auth",
+      "cwd": "${workspaceFolder:market-place-services}/services/auth-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.auth",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/auth-service",
-        "JWT_PRIVATE_KEY_PATH": "${workspaceFolder}/secrets/jwt/private.pem",
-        "JWT_PUBLIC_KEY_PATH": "${workspaceFolder}/secrets/jwt/public.pem"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/auth-service",
+        "JWT_PRIVATE_KEY_PATH": "${workspaceFolder:market-place-services}/secrets/jwt/private.pem",
+        "JWT_PUBLIC_KEY_PATH": "${workspaceFolder:market-place-services}/secrets/jwt/public.pem"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -73,11 +73,11 @@
         "--host", "0.0.0.0",
         "--port", "8001"
       ],
-      "cwd": "${workspaceFolder}/services/application-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "cwd": "${workspaceFolder:market-place-services}/services/application-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.application",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/application-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -96,11 +96,11 @@
         "--port", "8001",
         "--reload"
       ],
-      "cwd": "${workspaceFolder}/services/application-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "cwd": "${workspaceFolder:market-place-services}/services/application-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.application",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/application-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -117,11 +117,11 @@
         "worker",
         "app.core.taskiq:broker"
       ],
-      "cwd": "${workspaceFolder}/services/application-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "cwd": "${workspaceFolder:market-place-services}/services/application-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.application",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/application-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -139,11 +139,11 @@
         "app.core.schedules:scheduler",
         "--skip-first-run"
       ],
-      "cwd": "${workspaceFolder}/services/application-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.application",
+      "cwd": "${workspaceFolder:market-place-services}/services/application-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.application",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/application-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/application-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -160,11 +160,11 @@
         "worker",
         "app.workers.taskiq_broker:broker"
       ],
-      "cwd": "${workspaceFolder}/services/documents-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.documents",
+      "cwd": "${workspaceFolder:market-place-services}/services/documents-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.documents",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/documents-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/documents-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -182,11 +182,11 @@
         "--host", "0.0.0.0",
         "--port", "8002"
       ],
-      "cwd": "${workspaceFolder}/services/documents-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.documents",
+      "cwd": "${workspaceFolder:market-place-services}/services/documents-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.documents",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/documents-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/documents-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -205,11 +205,11 @@
         "--port", "8002",
         "--reload"
       ],
-      "cwd": "${workspaceFolder}/services/documents-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.documents",
+      "cwd": "${workspaceFolder:market-place-services}/services/documents-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.documents",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/documents-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/documents-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -227,11 +227,11 @@
         "--host", "0.0.0.0",
         "--port", "8003"
       ],
-      "cwd": "${workspaceFolder}/services/payments-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.payments",
+      "cwd": "${workspaceFolder:market-place-services}/services/payments-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.payments",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/payments-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/payments-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -250,11 +250,11 @@
         "--port", "8003",
         "--reload"
       ],
-      "cwd": "${workspaceFolder}/services/payments-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.payments",
+      "cwd": "${workspaceFolder:market-place-services}/services/payments-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.payments",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/payments-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/payments-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -272,11 +272,11 @@
         "--host", "0.0.0.0",
         "--port", "8004"
       ],
-      "cwd": "${workspaceFolder}/services/notifications-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.notifications",
+      "cwd": "${workspaceFolder:market-place-services}/services/notifications-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.notifications",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/notifications-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/notifications-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -295,11 +295,11 @@
         "--port", "8004",
         "--reload"
       ],
-      "cwd": "${workspaceFolder}/services/notifications-service",
-      "python": "${workspaceFolder}/.venv/bin/python",
-      "envFile": "${workspaceFolder}/.dev/.env.notifications",
+      "cwd": "${workspaceFolder:market-place-services}/services/notifications-service",
+      "python": "${workspaceFolder:market-place-services}/.venv/bin/python",
+      "envFile": "${workspaceFolder:market-place-services}/.dev/.env.notifications",
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/services/notifications-service"
+        "PYTHONPATH": "${workspaceFolder:market-place-services}/services/notifications-service"
       },
       "preLaunchTask": "infra: ensure running",
       "justMyCode": false,
@@ -309,22 +309,28 @@
     // ── Frontend — Nuxt dev server (port 3000) ────────────────
     {
       "name": "fe: dev (3000)",
-      "type": "node-terminal",
+      "type": "node",
       "request": "launch",
-      "command": "npm run dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "cwd": "${workspaceFolder:market-place-fe}",
       "env": {
         "FASTAPI_BASE_URL": "http://localhost:8082/api/v1"
-      }
+      },
+      "console": "internalConsole",
+      "skipFiles": ["<node_internals>/**"]
     },
 
     // ── Infra ─────────────────────────────────────────────────
     {
       "name": "infra: restart",
-      "type": "node-terminal",
+      "type": "node",
       "request": "launch",
-      "command": "make -f .dev/Makefile services-down && make -f .dev/Makefile services-d",
-      "cwd": "${workspaceFolder}"
+      "runtimeExecutable": "bash",
+      "runtimeArgs": ["-c", "make -f .dev/Makefile services-down && make -f .dev/Makefile services-d"],
+      "cwd": "${workspaceFolder:market-place-services}",
+      "console": "internalConsole",
+      "skipFiles": ["<node_internals>/**"]
     }
 
 
@@ -333,7 +339,7 @@
   // ── Compound ─────────────────────────────────────────
   "compounds": [
     {
-      "name": "All Services (Debug, Worker, Reload) + FE",
+      "name": "🚀 All Services + FE",
       "preLaunchTask": "infra: ensure running",
       "configurations": [
         "auth-service (8000) — reload",
@@ -346,7 +352,12 @@
         "notifications-service (8004) — reload",
         "fe: dev (3000)"
       ],
-      "stopAll": true
+      "stopAll": true,
+      "presentation": {
+        "hidden": false,
+        "group": "all-services",
+        "order": 1
+      }
     }
   ]
 }

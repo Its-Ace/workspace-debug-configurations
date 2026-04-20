@@ -41,7 +41,8 @@
         "label": "Infra",
         "focus": false,
         "showReuseMessage": false,
-        "clear": true
+        "clear": true,
+        "close": true
       },
       "runOptions": {
         "instanceLimit": 1
